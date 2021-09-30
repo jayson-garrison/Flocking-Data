@@ -2,29 +2,40 @@
  Author:      Jayson C. Garrison
  ID:          1555563
  Lab Section: N/A
- Date:        09/19/2021 
+ Date:        09/29/2021 
  Course:      N/A
  Section      01
  File Name:   Calculate.java
  Classes:     Calculate
- Description: To calculate mean and std from the Flocking dataset for DAI21
+ Description: To calculate mean and std from the Flocking dataset for DAI21 and other submissions
 */
 import java.util.*;
+
+import javax.print.attribute.standard.DateTimeAtCompleted;
+
 import java.io.*;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 
 public class Calculate <E>{
     public static void main(String[] args) { 
         
         final String convTS = "Convergence Timestep,.csv";
-        final String path = "/home/jayso/Flocking-Data/";
+        // relative paths
+        // home
+        // final String path = "/home/jayso/Flocking-Data/";
+        // tumaster
+        final String path = "/home/tumaster/jayso/Flocking-Data/";
+
         // declare data structures
         
         int[][] dataIZ = new int[24][2];
         int[][] dataPZ = new int[24][2];
         int[][] data3Z = new int[24][2];
 
-        File data = new File(path + "data/");
-        File fdata = new File(path + "fdata/");
+        File data = new File(path + "aligned/");
+        File fdata = new File(path + "unaligned/");
 
         // loop thru data and fdata (36 each)
         // for each dir, print the name with a ":"
@@ -34,7 +45,10 @@ public class Calculate <E>{
         //System.out.println(fdata.getName());
         try {
             //FileWriter writeIt = new FileWriter( "MeanStd.txt" );
-            PrintWriter fileOut = new PrintWriter( new FileWriter( "MeanStd.txt" ) );
+            //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
+            //LocalDateTime current = LocalDateTime.now();
+            //String fileName = dtf.format(current) + "MeanStd.txt";
+            PrintWriter fileOut = new PrintWriter( new FileWriter( "MeanStd2.txt" ) );
             String[] dirsData = data.list();
             String[] dirsFData = fdata.list();
             String[] totalData = new String[72];
@@ -57,10 +71,10 @@ public class Calculate <E>{
                 // would like to automate this better and make it more general
                 // read this file and call methods to calculate mean and stdv
                 if ( i < 36) {
-                    temp = new File(path + "data/" + totalData[i] + "/" + convTS);
+                    temp = new File(path + "aligned/" + totalData[i] + "/" + convTS);
                 } // end if
                 else {
-                    temp = new File(path + "fdata/" + totalData[i] + "/" + convTS);
+                    temp = new File(path + "unaligned/" + totalData[i] + "/" + convTS);
                 } // end else
                 Scanner read = new Scanner(temp);
                 double[] entries = new double[200];
@@ -76,7 +90,7 @@ public class Calculate <E>{
             } // end for
             fileOut.close();
         } catch (FileNotFoundException e) {
-            System.out.println("error");
+            System.out.println("FileNotFoundException error");
         } catch (IOException er) {
             System.out.println("IO Error");
         } // end catch

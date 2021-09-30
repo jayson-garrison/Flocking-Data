@@ -1,3 +1,3 @@
 javac Calculate.java
-javac Structure.java
+# javac Structure.java
 java Calculate
